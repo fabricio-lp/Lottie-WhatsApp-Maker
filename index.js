@@ -9,7 +9,7 @@ const {
 	generateMessageID
 } = require('@whiskeysockets/baileys');
 
-const { createLottieSticker } = require('./src/injector');
+const { createLottieSticker, listAvailableLotties } = require('./src/injector');
 
 const readline = require('readline');
 
@@ -67,15 +67,32 @@ function getCommandText(messageContent) {
 }
 
 function parseLottieCommand(text) {
-	const match = text.match(/^\/lottie(?:\s+(\d+))?\b/i);
+	const match = text.match(/^\/lottie(?:\s+(\w+))?\b/i);
 	if (!match) {
 		return null;
 	}
 
-	const parsed = Number.parseInt(match[1] || '1', 10);
+	const rawArg = (match[1] || '').toLowerCase();
+	if (rawArg === 'list') {
+		return { action: 'list' };
+	}
+
+	const parsed = Number.parseInt(rawArg || '1', 10);
 	const templateId = Number.isNaN(parsed) ? 1 : parsed;
 
-	return { templateId };
+	return { action: 'generate', templateId };
+}
+
+function formatLottieListMessage() {
+	const lotties = listAvailableLotties();
+	const lines = lotties.map((item) => `${item.id} - ${item.fileName}`);
+
+	return [
+		'Lotties disponíveis:',
+		...lines,
+		'',
+		'Use: /lottie <id> para gerar um sticker.'
+	].join('\n');
 }
 
 function buildQuotedImageMessage(msg, messageContent) {
@@ -155,6 +172,15 @@ async function startBot() {
 
 		if (!command) return;
 
+		if (command.action === 'list') {
+			await sock.sendMessage(
+				jid,
+				{ text: formatLottieListMessage() },
+				{ quoted: msg }
+			);
+			return;
+		}
+
 		try {
 			let imageSourceMessage = null;
 
@@ -167,7 +193,7 @@ async function startBot() {
 			if (!imageSourceMessage) {
 				await sock.sendMessage(
 					jid,
-					{ text: 'Envie uma imagem com o comando na legenda ou responda uma imagem com /lottie <id>.' },
+					{ text: 'Envie uma imagem com o comando na legenda ou responda uma imagem com /lottie <id>. Use /lottie list para ver os IDs disponíveis.' },
 					{ quoted: msg }
 				);
 				return;

@@ -8,6 +8,12 @@ const TEMPLATE_MAP = {
     3: 'double.was'
 };
 
+function listAvailableLotties() {
+    return Object.entries(TEMPLATE_MAP)
+        .map(([id, fileName]) => ({ id: Number.parseInt(id, 10), fileName }))
+        .sort((a, b) => a.id - b.id);
+}
+
 async function createLottieSticker(imageBuffer, templateId) {
     if (!Buffer.isBuffer(imageBuffer) || imageBuffer.length === 0) {
         throw new Error('Invalid image buffer');
@@ -63,4 +69,4 @@ async function createLottieSticker(imageBuffer, templateId) {
     return finalBuffer;
 }
 
-module.exports = { createLottieSticker };
+module.exports = { createLottieSticker, listAvailableLotties };
