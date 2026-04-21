@@ -95,8 +95,9 @@ Na primeira execução, o bot pede no terminal o número do WhatsApp com DDI e D
 1. Execute `node index.js`.
 2. Digite seu número no formato internacional, por exemplo: `5511999999999`.
 3. Aguarde o código de pareamento aparecer no terminal.
-4. No WhatsApp do celular, aguarde a notificação solicitando código.
-5. Depois de autenticado, o bot salva a sessão na pasta `auth`. Caso dê algum erro na sessão, basta excluir a pasta e iniciar uma nova sessão.
+4. No WhatsApp do celular, aguarde a notificação solicitando o código.
+5. Digite o código de pareamento no seu devido campo e confirme a autenticação
+6. Depois de autenticado, o bot salva a sessão na pasta `auth`. Caso dê algum erro na sessão, basta excluir a pasta e iniciar uma nova sessão.
 
 ### Comandos disponíveis
 
