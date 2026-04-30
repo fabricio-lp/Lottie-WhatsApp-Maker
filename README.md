@@ -1,4 +1,6 @@
 # WhatsApp Lottie Maker
+> [!CAUTION]
+> Devido à novas validações de criptografia em stickers animados, este script está obsoleto.
 
 ![Node.js](https://img.shields.io/badge/Node.js-Ready-339933?logo=node.js&logoColor=white)
 ![Baileys](https://img.shields.io/badge/WhatsApp%20API-Baileys-25D366?logo=whatsapp&logoColor=white)
